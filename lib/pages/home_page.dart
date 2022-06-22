@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/data_sources/api/weather_api.dart';
 import 'package:flutter_weather_app/models/weather/weather.dart';
+import 'package:flutter_weather_app/pages/forecast_page.dart';
 import 'package:flutter_weather_app/services/geolocation_service.dart';
 import 'package:flutter_weather_app/widgets/retry_widget/retry_widget.dart';
 import 'package:flutter_weather_app/widgets/weather_widget/weather_widget.dart';
@@ -18,6 +19,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final weatherApi = WeatherApi();
 
+  void toForecastPage() {
+    Navigator.of(context).push(ForecastPageRoute(
+        dependency: ForecastPageDependency(
+            title: "Прогноз погоды", weatherApi: weatherApi)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,39 +32,46 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: FutureBuilder<Position>(
-            future: GeolocationService.determinePosition(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return RetryWidget(
-                    text: snapshot.error.toString(),
-                    retry: () {
-                      setState(() {});
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FutureBuilder<Position>(
+              future: GeolocationService.determinePosition(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return RetryWidget(
+                      text: snapshot.error.toString(),
+                      retry: () {
+                        setState(() {});
+                      });
+                }
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                return FutureBuilder<Weather>(
+                    future: weatherApi.getNowWeather(
+                        snapshot.data!.latitude, snapshot.data!.longitude),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return RetryWidget(
+                            text: snapshot.error.toString(),
+                            retry: () {
+                              setState(() {});
+                            });
+                      }
+                      if (!snapshot.hasData) {
+                        return const CircularProgressIndicator();
+                      }
+                      return WeatherWidget(
+                        weather: snapshot.data!,
+                      );
                     });
-              }
-              if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
-              }
-              return FutureBuilder<Weather>(
-                  future: weatherApi.getNowWeather(
-                      snapshot.data!.latitude, snapshot.data!.longitude),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return RetryWidget(
-                          text: snapshot.error.toString(),
-                          retry: () {
-                            setState(() {});
-                          });
-                    }
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-                    return WeatherWidget(
-                      weather: snapshot.data!,
-                    );
-                  });
-            }),
-      ),
+              }),
+          ElevatedButton(
+              onPressed: toForecastPage,
+              child: const Text('Посмотреть прогноз на 5 дней'))
+        ],
+      )),
     );
   }
 }

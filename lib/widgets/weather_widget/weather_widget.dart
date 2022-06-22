@@ -10,8 +10,8 @@ class WeatherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(16),
+    return ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 500),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

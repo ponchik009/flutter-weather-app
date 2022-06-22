@@ -8,8 +8,8 @@ part 'forecast_item.g.dart';
 class ForecastItem {
   final List<WeatherInfo> weather;
   final MainInfo main;
-  @JsonKey(name: 'dt')
-  final int date;
+  @JsonKey(name: 'dt_txt')
+  final String date;
 
   ForecastItem({required this.weather, required this.main, required this.date});
 

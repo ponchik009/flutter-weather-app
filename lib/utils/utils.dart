@@ -6,6 +6,8 @@ class Utils {
 
   static IconData chooseWeatherIcon(String weather) {
     switch (weather) {
+      case "Clear":
+        return WeatherIcons.day_sunny;
       case "Clouds":
         return WeatherIcons.day_cloudy;
       case "Rain":
