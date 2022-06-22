@@ -1,16 +1,23 @@
 # flutter_weather_app
 
-A new Flutter project.
+![image](https://user-images.githubusercontent.com/98012969/175067680-f843291f-f86f-4792-bfff-16ce2f660ebb.png)
+![image](https://user-images.githubusercontent.com/98012969/175067721-f0d6c09d-c377-419f-93ce-801ecc379f2f.png)
 
-## Getting Started
+## Что это?
+<p>Приложение для просмотра погоды</p>
 
-This project is a starting point for a Flutter application.
+## Что в нем?
+<p>Есть два экрана:</p>
+<p>1. Экран, на котором отображается текущая погода</p>
+<p>2. Экран, на котором отображается прогноз погоды на 5 дней</p>
 
-A few resources to get you started if this is your first Flutter project:
+## Функционал?
+<p>Список фич:</p>
+<p>1. Определение геопозиции</p>
+<p>2. Взаимодействие с апи погоды (не пользуйтесь моим токеном, пожалуйста1!!!)</p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Что реализовано плохо?
+<p>1. Дата-время для прогноза погоды приходит с ХЗ каким часовым поясом, и я никак это не обрабатываю</p>
+<p>2. Экраны HomePage и ForecastPage, виджеты WeatherWidget и ForecastWidget содержат слишком много одинаковой логики - её надо разбить на отдельные переиспользуемые виджеты</p>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
